@@ -23,7 +23,7 @@ public class Main {
         int result = 0;
         String[] inputArray = input.split("\\n");
         String patternString = first ? "\\d" : "(?=(\\d|zero|one|two|three|four|five|six|seven|eight|nine))";
-        int group = first ? 0 : 1; //for the second processing Matcher.group() would contain an empty string so we need Matcher.group(1)
+        int group = first ? 0 : 1;
         Pattern pattern = Pattern.compile(patternString);
         for(String inputString : inputArray) {
             StringBuilder numberStringBuilder = new StringBuilder();
