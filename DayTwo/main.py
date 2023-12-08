@@ -3,8 +3,10 @@ import constants as const
 def adventOfCodeDayTwo():
     inputString = read_text_file()
     input_dict = create_directory(inputString)
-    check_games(input_dict)
-    print(input_dict)
+    for key in input_dict.keys():
+        if check_games(input_dict[key]):
+            const.SUM += key
+    print("SUM FOR VALID GAMES: ", const.SUM)
 
 def read_text_file():
     inputLines = ""
@@ -23,8 +25,19 @@ def create_directory(games):
         input_dict[key] = value
     return input_dict
 
-def check_games(input_dict):
-    return 0
+def check_games(game):
+    game_dict = {}
+    rounds_list = game.split(";")
+    for round in rounds_list:
+        round = round.strip()
+        draws = round.split(",")
+        for draw in draws:
+            draw = draw.strip()
+            value, key = draw.split(" ")
+            game_dict[key] = value
+    print(game_dict)       
+    check_game_dict(game_dict) 
+    return True
 
 
 if __name__ == "__main__":
