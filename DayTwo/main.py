@@ -26,7 +26,8 @@ def create_directory(games):
     return input_dict
 
 def check_games(game):
-    game_dict = {}
+    valid = True #We asume, that every game is valid
+    draw_dict = {}
     rounds_list = game.split(";")
     for round in rounds_list:
         round = round.strip()
@@ -34,9 +35,22 @@ def check_games(game):
         for draw in draws:
             draw = draw.strip()
             value, key = draw.split(" ")
-            game_dict[key] = value
-    print(game_dict)       
-    check_game_dict(game_dict) 
+            draw_dict[key] = value      
+            valid &= check_draw(draw_dict) #We check every round, if one round is invalid, the whole game gets invalid
+    return valid
+
+def check_draw(draw_dict):
+    for key in draw_dict.keys():
+        if(key == "red"):
+            if(int(draw_dict[key]) > const.RED):
+                return False
+        if(key == "green"):
+            if(int(draw_dict[key]) > const.GREEN):
+                return False
+        if(key == "blue"):
+            if(int(draw_dict[key]) > const.BLUE):
+                return False
+    
     return True
 
 
