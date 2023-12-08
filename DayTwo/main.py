@@ -6,7 +6,8 @@ def adventOfCodeDayTwo():
     for key in input_dict.keys():
         if check_games(input_dict[key]):
             const.SUM += key
-    print("SUM FOR VALID GAMES: ", const.SUM)
+    print("RESULT Puzzle 1: ", const.SUM)
+    print("POWER:", const.SUM_POWER)
 
 def read_text_file():
     inputLines = ""
@@ -29,6 +30,11 @@ def check_games(game):
     valid = True #We asume, that every game is valid
     draw_dict = {}
     rounds_list = game.split(";")
+    
+    min_red = 0
+    min_green = 0
+    min_blue = 0
+
     for round in rounds_list:
         round = round.strip()
         draws = round.split(",")
@@ -37,6 +43,9 @@ def check_games(game):
             value, key = draw.split(" ")
             draw_dict[key] = value      
             valid &= check_draw(draw_dict) #We check every round, if one round is invalid, the whole game gets invalid
+            min_red, min_blue, min_green = calculate_power(draw_dict, min_red, min_green, min_blue)
+
+    const.SUM_POWER += (min_blue * min_red * min_green)
     return valid
 
 def check_draw(draw_dict):
@@ -50,9 +59,26 @@ def check_draw(draw_dict):
         if(key == "blue"):
             if(int(draw_dict[key]) > const.BLUE):
                 return False
-    
     return True
 
+def calculate_power(draw_dict, min_red, min_green, min_blue):
+    if("red" in draw_dict):
+        red_balls = int(draw_dict["red"])
+        if(red_balls > min_red):
+            min_red = red_balls
+    
+    if("blue" in draw_dict):
+        blue_balls = int(draw_dict["blue"])
+        if(blue_balls > min_blue):
+            min_blue = blue_balls
+    
+    if("green" in draw_dict):
+        green_balls = int(draw_dict["green"])
+        if(green_balls) > min_green:
+            min_green = green_balls
+    
+    return min_red, min_blue, min_green
 
+    
 if __name__ == "__main__":
     adventOfCodeDayTwo()
